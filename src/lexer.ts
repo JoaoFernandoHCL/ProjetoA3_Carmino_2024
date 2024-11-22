@@ -138,7 +138,31 @@ export class Lexer {
         // Implementação da igualdade 
         return new Token(TokenType.More, ">");
       }
+      /*
+          Fala galera, esse bloco aqui no meu parou de dar o erro, testem ai na aula tbm pfvr
+      if (this.currentChar === '<') {
+        const nextChar = this.lookAhead().value;
+        if (nextChar === '=') {
+          this.advance(); // Avança o '<'
+          this.advance(); // Avança o '='
+          return new Token(TokenType.LessEquals, "<=");
+        }
+        this.advance();
+        return new Token(TokenType.Less, "<"); 
+      }
+      
+      if (this.currentChar === '>') {
+        const nextChar = this.lookAhead().value;
+        if (nextChar === '=') {
+          this.advance(); // Avança o '>'
+          this.advance(); // Avança o '='
+          return new Token(TokenType.MoreEquals, ">=");
+        }
+        this.advance();
+        return new Token(TokenType.More, ">");
+      }
 
+      */
       if(this.currentChar === "|") {
         this.advance();
         if(this.currentChar === "|") {
