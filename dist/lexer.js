@@ -29,6 +29,8 @@ var TokenType;
     TokenType["Then"] = "THEN";
     TokenType["While"] = "WHILE";
     TokenType["Do"] = "DO";
+    TokenType["AND"] = "&&";
+    TokenType["OR"] = "||";
 })(TokenType || (exports.TokenType = TokenType = {}));
 class Token {
     constructor(type, value) {
@@ -76,6 +78,11 @@ class Lexer {
             return new Token(TokenType.Else, result);
         if (result === "then")
             return new Token(TokenType.Then, result);
+        // identificação da estrutura do while
+        if (result === "while")
+            return new Token(TokenType.While, result);
+        if (result === "do")
+            return new Token(TokenType.Do, result);
         return new Token(TokenType.Name, result);
     }
     getNextToken() {
@@ -91,7 +98,15 @@ class Lexer {
             "=": TokenType.Equals,
             ";": TokenType.Semicolon,
             "==": TokenType.EqualsEquals,
+            "!=": TokenType.NotEquals,
+            ">": TokenType.More,
+            ">=": TokenType.MoreEquals,
+            "<": TokenType.Less,
+            "<=": TokenType.LessEquals,
+            "&&": TokenType.AND,
+            "||": TokenType.OR,
         };
+        let auxCharacter = "";
         while (this.currentChar !== null) {
             if (/\s/.test(this.currentChar)) {
                 this.skipWhitespace();
@@ -112,6 +127,55 @@ class Lexer {
                 }
                 // Implementação da igualdade 
                 return new Token(TokenType.Equals, "=");
+            }
+            if (this.currentChar === '>') {
+                this.advance();
+                auxCharacter = "";
+                if (this.currentChar != null) {
+                    auxCharacter = this.currentChar;
+                }
+                if (auxCharacter === '=') {
+                    this.advance();
+                    return new Token(TokenType.MoreEquals, ">=");
+                }
+                return new Token(TokenType.More, ">");
+            }
+            if (this.currentChar === '<') {
+                this.advance();
+                auxCharacter = "";
+                if (this.currentChar != null) {
+                    auxCharacter = this.currentChar;
+                }
+                if (auxCharacter === '=') {
+                    this.advance();
+                    return new Token(TokenType.LessEquals, "<=");
+                }
+                return new Token(TokenType.Less, "<");
+            }
+            if (this.currentChar === '!') {
+                this.advance();
+                auxCharacter = "";
+                if (this.currentChar != null) {
+                    auxCharacter = this.currentChar;
+                }
+                if (auxCharacter === '=') {
+                    this.advance();
+                    return new Token(TokenType.NotEquals, "!=");
+                }
+            }
+            if (this.currentChar === "|") {
+                this.advance();
+                if (this.currentChar === "|") {
+                    this.advance();
+                    return new Token(TokenType.LessEquals, "||");
+                }
+            }
+            if (this.currentChar === "&") {
+                this.advance();
+                if (this.currentChar === "&") {
+                    this.advance();
+                    return new Token(TokenType.LessEquals, "&&");
+                }
             }
             if (operatorTokens[this.currentChar]) {
                 const token = new Token(operatorTokens[this.currentChar], this.currentChar);

@@ -46,7 +46,6 @@ function executeAST(node, context) {
             return executeAST(node.elseBranch, context);
         }
     }
-    // While node
     else if (node instanceof ast_nodes_1.WhileNode) {
         const conditionResult = executeAST(node.condition, context);
         if (conditionResult) {

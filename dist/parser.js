@@ -17,7 +17,7 @@ class Parser {
             throw new Error(`Unexpected token: ${this.currentToken.type}, expected: ${tokenType}`);
         }
     }
-    // conditional
+    // parte nova 
     conditional() {
         const left = this.expr();
         if (this.currentToken.type === lexer_1.TokenType.EqualsEquals) {
@@ -27,16 +27,15 @@ class Parser {
         }
         return left;
     }
-    // statement if
     ifStatement() {
         this.eat(lexer_1.TokenType.If);
-        const condition = this.conditional();
+        const condition = this.conditional(); // Parse da condição
         this.eat(lexer_1.TokenType.Then);
-        const thenBranch = this.statement();
+        const thenBranch = this.statement(); // Parse do bloco `then`
         let elseBranch = null;
         if (this.currentToken.type === lexer_1.TokenType.Else) {
             this.eat(lexer_1.TokenType.Else);
-            elseBranch = this.statement();
+            elseBranch = this.statement(); // Parse do bloco `else`
         }
         // Consumir o `;` opcional após o bloco `if` ou `else`
         if (this.currentToken.type === lexer_1.TokenType.Semicolon) {
@@ -44,6 +43,7 @@ class Parser {
         }
         return new ast_nodes_1.IfNode(condition, thenBranch, elseBranch);
     }
+    // fim da parte nova
     factor() {
         const token = this.currentToken;
         if (token.type === lexer_1.TokenType.Number) {
@@ -92,9 +92,9 @@ class Parser {
     }
     statement() {
         if (this.currentToken.type === lexer_1.TokenType.If) {
-            return this.statement();
+            return this.ifStatement();
         }
-        if (this.currentToken.type === lexer_1.TokenType.Name) {
+        else if (this.currentToken.type === lexer_1.TokenType.Name) {
             const nextToken = this.lexer.lookAhead();
             if (nextToken.type === lexer_1.TokenType.Equals) {
                 return this.assignment();
