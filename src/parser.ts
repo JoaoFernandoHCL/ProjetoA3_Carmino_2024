@@ -1,6 +1,6 @@
 // parser.ts
 import { Token, TokenType, Lexer } from "./lexer";
-import { WhileNode, BinaryOpNode, NumberNode, NameNode, AssignmentNode, ASTNode, ConditionalNode, IfNode } from "./ast-nodes";
+import { BinaryOpNode, NumberNode, NameNode, AssignmentNode, ASTNode, IfNode, ConditionalNode } from "./ast-nodes";
 
 export class Parser {
   private currentToken!: Token;
@@ -19,30 +19,29 @@ export class Parser {
     }
   }
 
-  // conditional
-  private  conditional(): ASTNode {
+  // parte nova 
+  private conditional(): ASTNode {
     const left = this.expr();
-    if(this.currentToken.type === TokenType.EqualsEquals) {
+    if (this.currentToken.type === TokenType.EqualsEquals) {
       this.eat(TokenType.EqualsEquals);
       const right = this.expr();
       return new ConditionalNode(left, "==", right);
     }
     return left;
   }
-
-  // statement if
+  
   private ifStatement(): ASTNode {
     this.eat(TokenType.If);
-    const condition = this. conditional();
+    const condition = this.conditional(); // Parse da condição
     this.eat(TokenType.Then);
-    const thenBranch = this.statement();
-
+    const thenBranch = this.statement(); // Parse do bloco `then`
+  
     let elseBranch = null;
-    if(this. currentToken.type === TokenType.Else) {
+    if (this.currentToken.type === TokenType.Else) {
       this.eat(TokenType.Else);
-      elseBranch = this.statement();
+      elseBranch = this.statement(); // Parse do bloco `else`
     }
-
+  
     // Consumir o `;` opcional após o bloco `if` ou `else`
     if (this.currentToken.type === TokenType.Semicolon) {
       this.eat(TokenType.Semicolon);
@@ -50,23 +49,8 @@ export class Parser {
   
     return new IfNode(condition, thenBranch, elseBranch);
   }
-
-  //tentativa while
-  private whileStatement(): ASTNode {
-    this.eat(TokenType.While);             //While
-    const condition = this.conditional(); // Analisa a condição do loop
-    this.eat(TokenType.Do);               // Bloco de instrução
-    const doBranch = this.statement();    
-    
-    
-    if (this.currentToken.type === TokenType.Semicolon) {
-      this.eat(TokenType.Semicolon);
-    }
   
-    return new WhileNode(condition, doBranch);
-
-    //Era pra mudar o execution tbm professor =/ ? 
-  }
+  // fim da parte nova
 
   private factor(): ASTNode {
     const token = this.currentToken;
@@ -122,16 +106,13 @@ export class Parser {
 
   public statement(): ASTNode {
     if (this.currentToken.type === TokenType.If) {
-      return this.statement();
-    }
+      return this.ifStatement();
+    } else
     if (this.currentToken.type === TokenType.Name) {
       const nextToken = this.lexer.lookAhead();
       if (nextToken.type === TokenType.Equals) {
         return this.assignment();
       }
-    }
-    if (this.currentToken.type === TokenType.While) {
-      return this.whileStatement(); // Novo suporte ao loop while
     }
     return this.expr();
   }

@@ -102,7 +102,8 @@ export class Lexer {
       "&&": TokenType.AND,
       "||": TokenType.OR,
     };
-
+    
+    let auxCharacter = "";
     while (this.currentChar !== null) {
       if (/\s/.test(this.currentChar)) {
         this.skipWhitespace();
@@ -130,46 +131,56 @@ export class Lexer {
 
       if(this.currentChar === '>') {
         this.advance();
-        // Implementação da igualdade comparativa
-        if(this.currentChar === '=') {
+        auxCharacter = "";
+        if(this.currentChar != null) {
+          auxCharacter = this.currentChar;
+        }
+        if(auxCharacter === '=') {
           this.advance();
           return new Token(TokenType.MoreEquals, ">=");
         } 
-        // Implementação da igualdade 
-        return new Token(TokenType.More, ">");
-      }
-      /*
-          Fala galera, esse bloco aqui no meu parou de dar o erro, testem ai na aula tbm pfvr
-      if (this.currentChar === '<') {
-        const nextChar = this.lookAhead().value;
-        if (nextChar === '=') {
-          this.advance(); // Avança o '<'
-          this.advance(); // Avança o '='
-          return new Token(TokenType.LessEquals, "<=");
-        }
-        this.advance();
-        return new Token(TokenType.Less, "<"); 
-      }
-      
-      if (this.currentChar === '>') {
-        const nextChar = this.lookAhead().value;
-        if (nextChar === '=') {
-          this.advance(); // Avança o '>'
-          this.advance(); // Avança o '='
-          return new Token(TokenType.MoreEquals, ">=");
-        }
-        this.advance();
         return new Token(TokenType.More, ">");
       }
 
-      */
+      if(this.currentChar === '<') {
+        this.advance();
+        auxCharacter = "";
+        if(this.currentChar != null) {
+          auxCharacter = this.currentChar;
+        }
+        if(auxCharacter === '=') {
+          this.advance();
+          return new Token(TokenType.LessEquals, "<=");
+        } 
+        return new Token(TokenType.Less, "<");
+      }
+
+      if(this.currentChar === '!') {
+        this.advance();
+        auxCharacter = "";
+        if(this.currentChar != null) {
+          auxCharacter = this.currentChar;
+        }
+        if(auxCharacter === '=') {
+          this.advance();
+          return new Token(TokenType.NotEquals, "!=");
+        } 
+      }
+
       if(this.currentChar === "|") {
         this.advance();
         if(this.currentChar === "|") {
           this.advance();
           return new Token(TokenType.LessEquals, "||");
         } 
-        throw new Error(`Invalid character: ${this.currentChar}`);
+      }
+
+      if(this.currentChar === "&") {
+        this.advance();
+        if(this.currentChar === "&") {
+          this.advance();
+          return new Token(TokenType.LessEquals, "&&");
+        } 
       }
 
       if (operatorTokens[this.currentChar]) {
