@@ -8,7 +8,7 @@ Palavras-chave: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/bl
 
 𝙶𝚛𝚊𝚖𝚊́𝚝𝚒𝚌𝚊𝙱𝙽𝙵: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/blob/main/GramaticaBNF.txt </a> 
 
-Código do compilador: <a></a>
+Código do interpretador: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/tree/main/src </a>
 
 
 𝙸𝚗𝚝𝚎𝚐𝚛𝚊𝚗𝚝𝚎𝚜:
