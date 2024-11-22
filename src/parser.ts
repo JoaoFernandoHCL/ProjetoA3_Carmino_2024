@@ -130,6 +130,9 @@ export class Parser {
         return this.assignment();
       }
     }
+    if (this.currentToken.type === TokenType.While) {
+      return this.whileStatement(); // Novo suporte ao loop while
+    }
     return this.expr();
   }
 
