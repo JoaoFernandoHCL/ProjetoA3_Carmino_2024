@@ -68,7 +68,7 @@ Gramática - BNF
 
 //Termo Booleano	 
 
-<termoBool> ::= <fatorBool r> { ("&&") < fatorBool > } 
+<termoBool> ::= <fatorBool > { ("&&") < fatorBool > } 
 
 //Fator Booleano 
 
