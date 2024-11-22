@@ -26,6 +26,26 @@ export class Parser {
       this.eat(TokenType.EqualsEquals);
       const right = this.expr();
       return new ConditionalNode(left, "==", right);
+    } else if (this.currentToken.type === TokenType.NotEquals) {
+      this.eat(TokenType.NotEquals);
+      const right = this.expr();
+      return new ConditionalNode(left, "!=", right);
+    } else if (this.currentToken.type === TokenType.More) {
+      this.eat(TokenType.More);
+      const right = this.expr();
+      return new ConditionalNode(left, ">", right);
+    } else if (this.currentToken.type === TokenType.MoreEquals) {
+      this.eat(TokenType.MoreEquals);
+      const right = this.expr();
+      return new ConditionalNode(left, ">=", right);
+    } else if (this.currentToken.type === TokenType.Less) {
+      this.eat(TokenType.Less);
+      const right = this.expr();
+      return new ConditionalNode(left, "<", right);
+    } else if (this.currentToken.type === TokenType.LessEquals) {
+      this.eat(TokenType.LessEquals);
+      const right = this.expr();
+      return new ConditionalNode(left, "<=", right);
     }
     return left;
   }
