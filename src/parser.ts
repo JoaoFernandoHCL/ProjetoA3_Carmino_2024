@@ -1,6 +1,6 @@
 // parser.ts
 import { Token, TokenType, Lexer } from "./lexer";
-import { BinaryOpNode, NumberNode, NameNode, AssignmentNode, ASTNode, ConditionalNode, IfNode } from "./ast-nodes";
+import { WhileNode, BinaryOpNode, NumberNode, NameNode, AssignmentNode, ASTNode, ConditionalNode, IfNode } from "./ast-nodes";
 
 export class Parser {
   private currentToken!: Token;
@@ -49,6 +49,23 @@ export class Parser {
     }
   
     return new IfNode(condition, thenBranch, elseBranch);
+  }
+
+  //tentativa while
+  private whileStatement(): ASTNode {
+    this.eat(TokenType.While);             //While
+    const condition = this.conditional(); // Analisa a condição do loop
+    this.eat(TokenType.Do);               // Bloco de instrução
+    const doBranch = this.statement();    
+    
+    
+    if (this.currentToken.type === TokenType.Semicolon) {
+      this.eat(TokenType.Semicolon);
+    }
+  
+    return new WhileNode(condition, doBranch);
+
+    //Era pra mudar o execution tbm professor =/ ? 
   }
 
   private factor(): ASTNode {
