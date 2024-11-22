@@ -1,7 +1,9 @@
 Projeto A3 - 2024
-Professor José CArmino
+Professor José Carmino
+Descrição do projeto:
+Projeto para construir um compilador de linguagem desenvolvida pelos integrantes utilizando typescript.
 
-integrantes: 
+Integrantes: 
 - Danilo Yoshio Matsumura (822166164)
 - Danielly Moreira do Carmo (822126669)
 - João Fernando Henrique Cano Larios (823157005)
