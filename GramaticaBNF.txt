@@ -1,43 +1,87 @@
 Gramática - BNF
 
-Variável: 	<var> ::=  <nome> “=” <expr>”;” 
+//Variável	 
 
-Se:  	  <se> ::= <”se”> <”(“ condicao ”)”> ”{” <instrucao> ”}”{<senao>} 
+<var> ::=  <nome> “=” <expr>”;” 
 
-Senao:	<senao> ::= <”senao”> <”(“ condicao ”)”> ”{” <instrucao> ”}” 
+//Se		 
 
-Condição:	<condicao> ::= <expr> ”<”|”<=”|”>”|”>=”|”==”|”!=” <expr>
+<se> ::= <”se”> <”(“ condicao ”)”> ”{” <bloco> ”}”{<senao>}  
 
-   | <condicao> “&&”|”||” <condicao> 
-   | <se>  
+//Senao	 
 
-Instrução:	<instrucao> ::= <var>  
+<senao> ::= <”senao”> <"se"> ”{” <bloco> ”}”   
+
+//Bloco de instruções 
+
+<bloco> ::= <var>  
 
    | <expr> 
+
    | <se> 
+
    | <enquanto> 
+
    | <print> 
 
-Print: 		 <print> ::= <"print"> “(“<expr> | <string>”)” ";"
+//Print		 
 
-Enquanto:	<enquanto> ::= <”enquanto”> <”(“ condicao “)”> “{“ <instrucao> “}” 
+ <print> ::= <"print"> “(“<expr> | <string>”)” ";" 
 
-Expressão:	<expr> ::= <termo> { ("+" | "-") <termo>}”;” 
+//Enquanto 
 
-Termo:		<termo> ::= <fator> { ("*" | "/") <fator>} 
+<enquanto> ::= <”enquanto”> <”(“ condicao “)”> “{“ <bloco> “}” 
 
-Fator:		<fator> ::= <numero>  
+//Expressão 
 
-      | <nome>  
-      | <string> 
-      | "(" <expr> ")" 
+<expr> ::= <termo> { ("+" | "-") <termo>}”;” 
 
-Número:	<numero> ::= [0-9]* 
+//Termo		 
 
-Nome:		<nome> ::= [a-zA-Z_][a-zA-Z0-9]* 
+<termo> ::= <fator> { ("*" | "/") <fator>} 
 
-String:		<string> ::= ‘ ” ’ .* ‘ ”’  
+//Fator		 
 
-Condição:	<condicao> ::= < termo bool > { ("||") < termo bool > } 
-Termo Bool:	<termo bool> ::= <termo bool r> { ("&&") < termo bool > } 
-Fator Bool:	<fator bool> ::=<expr> ”<”|”<=”|”>”|”>=”|”==”|”!=” <expr> 
+<fator> ::= <numero>  
+
+| <nome>  
+
+| <string> 
+
+ 	| "(" <expr> ")" 
+
+//Número	 
+
+<numero> ::= [0-9]* 
+
+//Nome		 
+
+<nome> ::= [a-zA-Z_][a-zA-Z0-9]* 
+
+//String		 
+
+<string> ::= ‘ ” ’ .* ‘ ”’  
+
+//Condição	 
+
+<condicao> ::= < termoBool > { ("||") < termoBool > } 
+
+//Termo Booleano	 
+
+<termoBool> ::= <fatorBool r> { ("&&") < fatorBool > } 
+
+//Fator Booleano 
+
+<fatorBool> ::=<expr> ”<”|”<=”|”>”|”>=”|”==”|”!=” <expr> 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
