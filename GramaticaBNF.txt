@@ -1,8 +1,8 @@
 Gramática - BNF
 
-//Variável	 
+//Declaração	 
 
-<var> ::=  <nome> “=” <expr>”;” 
+<declaracao> ::=  <nome> “=” <expr>”;” 
 
 //Se		 
 
