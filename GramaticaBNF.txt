@@ -1,36 +1,45 @@
 Gramática - BNF
 
+
+//Declaração 
+
+<declaracao> ::= <atribuicao>  
+
+   | <expr> 
+
+   | <declaracao_se> 
+
+   | <declaracao_enquanto> 
+
+   | <print> 
+
 //Atribuição	 
 
 <atribuicao> ::=  <nome> “=” <expr>”;” 
 
-//Se		 
+//Declaração_Se		 
 
-<se> ::= <”se”> <”(“ condicao ”)”> ”{” <bloco> ”}”{<senao>}  
+<declaracao_se> ::= <”se”> <”(“ condicao ”)”> ”{” <bloco> ”}”{<declaracao_senao>}  
 
-//Senao	 
+//Declaração_Senao	 
 
-<senao> ::= <”senao”> <"se"> ”{” <bloco> ”}”   
+<declaracao_senao> ::= <”declaracao_senao”> <"declaracao_se"> ”{” <bloco> ”}”   
 
-//Bloco de instruções 
+//Declaração_Enquanto 
 
-<bloco> ::= <atribuicao>  
-
-   | <expr> 
-
-   | <se> 
-
-   | <enquanto> 
-
-   | <print> 
+<declaracao_enquanto> ::= <”declaracao_enquanto”> <”(“ condicao “)”> “{“ <bloco> “}” 
 
 //Print		 
 
  <print> ::= <"print"> “(“<expr> | <string>”)” ";" 
 
-//Enquanto 
+//Termo Booleano	 
 
-<enquanto> ::= <”enquanto”> <”(“ condicao “)”> “{“ <bloco> “}” 
+<termoBool> ::= <fatorBool > { ("&&") < fatorBool > } 
+
+//Fator Booleano 
+
+<fatorBool> ::=<expr> ”<”|”<=”|”>”|”>=”|”==”|”!=” <expr> 
 
 //Expressão 
 
@@ -50,10 +59,6 @@ Gramática - BNF
 
  	| "(" <expr> ")" 
 
-//Número	 
-
-<numero> ::= [0-9]* 
-
 //Nome		 
 
 <nome> ::= [a-zA-Z_][a-zA-Z0-9]* 
@@ -62,19 +67,16 @@ Gramática - BNF
 
 <string> ::= ‘ ” ’ .* ‘ ”’  
 
-//Condição	 
+//Número	 
 
-<condicao> ::= < termoBool > { ("||") < termoBool > } 
+<numero> ::= [0-9]* 
 
-//Termo Booleano	 
 
-<termoBool> ::= <fatorBool > { ("&&") < fatorBool > } 
 
-//Fator Booleano 
 
-<fatorBool> ::=<expr> ”<”|”<=”|”>”|”>=”|”==”|”!=” <expr> 
 
- 
+
+
 
  
 
