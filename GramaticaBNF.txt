@@ -1,8 +1,8 @@
 Gramática - BNF
 
-//Declaração	 
+//Atribuição	 
 
-<declaracao> ::=  <nome> “=” <expr>”;” 
+<atribuicao> ::=  <nome> “=” <expr>”;” 
 
 //Se		 
 
@@ -14,7 +14,7 @@ Gramática - BNF
 
 //Bloco de instruções 
 
-<bloco> ::= <var>  
+<bloco> ::= <atribuicao>  
 
    | <expr> 
 
