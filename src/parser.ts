@@ -1,6 +1,6 @@
 // parser.ts
 import { Token, TokenType, Lexer } from "./lexer";
-import { BinaryOpNode, NumberNode, NameNode, AssignmentNode, ASTNode, IfNode, ConditionalNode } from "./ast-nodes";
+import { BinaryOpNode, NumberNode, NameNode, AssignmentNode, ASTNode, IfNode, ConditionalNode, WhileNode } from "./ast-nodes";
 
 export class Parser {
   private currentToken!: Token;
@@ -19,8 +19,31 @@ export class Parser {
     }
   }
 
-  // parte nova 
   private conditional(): ASTNode {
+    let node = this.bool_term();
+    while (
+      this.currentToken.type === TokenType.OR
+    ) {
+      const token = this.currentToken;
+      this.eat(token.type);
+      node = new ConditionalNode(node, token.value, this.bool_term());
+    }
+    return node;
+  }
+  
+  private bool_term(): ASTNode {
+    let node = this.bool_factor();
+    while (
+      this.currentToken.type === TokenType.AND 
+    ) {
+      const token = this.currentToken;
+      this.eat(token.type);
+      node = new ConditionalNode(node, token.value, this.bool_factor());
+    }
+    return node;
+  }
+
+  private bool_factor(): ASTNode {
     const left = this.expr();
     if (this.currentToken.type === TokenType.EqualsEquals) {
       this.eat(TokenType.EqualsEquals);
@@ -49,7 +72,7 @@ export class Parser {
     }
     return left;
   }
-  
+
   private ifStatement(): ASTNode {
     this.eat(TokenType.If);
     const condition = this.conditional(); // Parse da condição
@@ -70,7 +93,20 @@ export class Parser {
     return new IfNode(condition, thenBranch, elseBranch);
   }
   
-  // fim da parte nova
+  private whileStatement(): ASTNode {
+    this.eat(TokenType.While);
+    const condition = this.conditional(); // Parse da condição
+    this.eat(TokenType.Do);
+    const doBranch = this.statement(); // Parse do bloco `do`
+   
+    // Consumir o `;` opcional após o bloco `while`
+    if (this.currentToken.type === TokenType.Semicolon) {
+      this.eat(TokenType.Semicolon);
+    }
+  
+    return new WhileNode(condition, doBranch);
+  }
+  
 
   private factor(): ASTNode {
     const token = this.currentToken;
@@ -127,8 +163,9 @@ export class Parser {
   public statement(): ASTNode {
     if (this.currentToken.type === TokenType.If) {
       return this.ifStatement();
-    } else
-    if (this.currentToken.type === TokenType.Name) {
+    } else if (this.currentToken.type === TokenType.While) {
+      return this.whileStatement();
+    } else if (this.currentToken.type === TokenType.Name) {
       const nextToken = this.lexer.lookAhead();
       if (nextToken.type === TokenType.Equals) {
         return this.assignment();

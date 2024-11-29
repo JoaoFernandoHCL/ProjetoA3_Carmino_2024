@@ -39,6 +39,15 @@ export function evaluateCondition(
       return left <= right;
     case ">=":
       return left >= right;
+    case "||":
+      if (left===1 || right===1) {
+        return true;
+      } else return false;
+    case "&&":
+      if (left===1 && right===1 ) {
+        return true;
+      } else return false;
+
     default:
       throw new Error(`Operador condicional não suportado: ${operator}`);
   }

@@ -47,14 +47,16 @@ export function executeAST(node: ASTNode, context: ExecutionContext): number {
       return executeAST(node.elseBranch, context);
     }
   } else if (node instanceof WhileNode) {
-    const conditionResult = executeAST(node.condition, context);
-    if (conditionResult) {
+    let conditionResult = executeAST(node.condition, context);
+    while (conditionResult) {
+      conditionResult = executeAST(node.condition, context);
       return executeAST(node.doBranch, context);
-    } else return conditionResult;
+    } 
   } else if( node instanceof ConditionalNode) {
     const left = executeAST(node.left, context);
     const right = executeAST(node.right, context);
-    return evaluateCondition(node.operator, right, left) ? 1 : 0;;
-  } 
+    return evaluateCondition(node.operator, left, right) ? 1 : 0;;
+  }
+
   throw new Error("Unsupported AST node.");
 }
