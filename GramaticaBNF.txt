@@ -1,75 +1,40 @@
 Gramática - BNF
 
 
-//Declaração 
-
 <declaracao> ::= <atribuicao>  
+                 | <expressao> ";"
+                 | <declaracao_se> 
+                 | <declaracao_enquanto> 
+                 | <print> 
+ 
+<atribuicao> ::=  <nome> “=” <expressao> ”;” 
 
-   | <expr> 
+<declaracao_se> ::= ”se” ”(“ <condicao> ”)” ”{” <declaracao> ”}”["senao" <declaracao>]
+ 
+<declaracao_enquanto> ::= "enquanto" ”(“ <condicao> “)” “{“ <declaracao> “}” 
 
-   | <declaracao_se> 
+<print> ::= "print" “(“<expressao> | <string>”)” ";" 
 
-   | <declaracao_enquanto> 
+<condicao> ::= <termoBool> { ("||") <termoBool> }
 
-   | <print> 
+<termoBool> ::= <fatorBool> { ("&&") <fatorBool> } 
 
-//Atribuição	 
+<fatorBool> ::= <expressao> ”<” | ”<=” | ”>” | ”>=” | ”==” | ”!=” <expressao> 
 
-<atribuicao> ::=  <nome> “=” <expr>”;” 
+<expressao> ::= <termo> { ("+" | "-") <termo> }
 
-//Declaração_Se		 
-
-<declaracao_se> ::= <”se”> <”(“ condicao ”)”> ”{” <bloco> ”}”{<declaracao_senao>}  
-
-//Declaração_Senao	 
-
-<declaracao_senao> ::= <”declaracao_senao”> <"declaracao_se"> ”{” <bloco> ”}”   
-
-//Declaração_Enquanto 
-
-<declaracao_enquanto> ::= <”declaracao_enquanto”> <”(“ condicao “)”> “{“ <bloco> “}” 
-
-//Print		 
-
- <print> ::= <"print"> “(“<expr> | <string>”)” ";" 
-
-//Termo Booleano	 
-
-<termoBool> ::= <fatorBool > { ("&&") < fatorBool > } 
-
-//Fator Booleano 
-
-<fatorBool> ::=<expr> ”<”|”<=”|”>”|”>=”|”==”|”!=” <expr> 
-
-//Expressão 
-
-<expr> ::= <termo> { ("+" | "-") <termo>}”;” 
-
-//Termo		 
-
-<termo> ::= <fator> { ("*" | "/") <fator>} 
-
-//Fator		 
+<termo> ::= <fator> { ("*" | "/") <fator> } 
 
 <fator> ::= <numero>  
+            | <nome>  
+            | <string> 
+            | "(" <expr> ")" 
 
-| <nome>  
+<nome> ::= [a-zA-Z_][a-zA-Z0-9_]* 
 
-| <string> 
+<string> ::= ‘”’ .* ‘”’  
 
- 	| "(" <expr> ")" 
-
-//Nome		 
-
-<nome> ::= [a-zA-Z_][a-zA-Z0-9]* 
-
-//String		 
-
-<string> ::= ‘ ” ’ .* ‘ ”’  
-
-//Número	 
-
-<numero> ::= [0-9]* 
+<numero> ::= [0-9]+ 
 
 
 
