@@ -8,8 +8,9 @@ Palavras-chave: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/bl
 
 𝙶𝚛𝚊𝚖𝚊́𝚝𝚒𝚌𝚊𝙱𝙽𝙵: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/blob/main/GramaticaBNF.txt </a> 
 
-Código do interpretador: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/tree/main/src </a>
+Código do interpretador: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/tree/main/interpretador </a>
 
+Front-end em React para o interpretador: <a> https://github.com/JoaoFernandoHCL/ProjetoA3_Carmino_2024/tree/main/front </a>
 
 𝙸𝚗𝚝𝚎𝚐𝚛𝚊𝚗𝚝𝚎𝚜:
 - 𝙳𝚊𝚗𝚒𝚕𝚘 𝚈𝚘𝚜𝚑𝚒𝚘 𝙼𝚊𝚝𝚜𝚞𝚖𝚞𝚛𝚊 (𝟾𝟸𝟸𝟷𝟼𝟼𝟷𝟼𝟺)
