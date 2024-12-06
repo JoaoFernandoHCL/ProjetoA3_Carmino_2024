@@ -1,0 +1,4 @@
+[
+    { "path": "/",        "label": "Home",     "component": "Home" },
+    { "path": "/interpretador",   "label": "Interpretador",    "component": "Interpretador" }
+  ]
