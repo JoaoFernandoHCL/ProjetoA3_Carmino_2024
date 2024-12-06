@@ -16,6 +16,8 @@ import { createPrintStatement, evaluateBinaryOp, evaluateCondition } from "./uti
 export class ExecutionContext {
   private variables: { [key: string]: number } = {};
 
+  public printResults: string[] = []; // Para armazenar resultados de impressão
+
   public setVariable(name: string, value: number) {
     this.variables[name] = value;
   }
@@ -38,7 +40,7 @@ export function executeAST(node: ASTNode, context: ExecutionContext): any {
   } else if (node instanceof NameNode) {
     return context.getVariable(node.value);
   } else if (node instanceof StringNode){
-    return context.getVariable(node.value);
+    return node.value; 
   } else if (node instanceof AssignmentNode) {
     const value = executeAST(node.value, context);
     context.setVariable(node.name.value, value);
@@ -62,11 +64,16 @@ export function executeAST(node: ASTNode, context: ExecutionContext): any {
     const left = executeAST(node.left, context);
     const right = executeAST(node.right, context);
     return evaluateCondition(node.operator, left, right) ? 1 : 0;;
-  } else if( node instanceof PrintNode) {
+  } else if (node instanceof PrintNode) {
     const print = executeAST(node.print, context);
     console.log("Executando PrintNode:", print);
-    return createPrintStatement(print);
-  }
+    const result = createPrintStatement(print);
+    if (!context.printResults) {
+        context.printResults = []; // Inicializa se não existir
+    }
+    context.printResults.push(result); // Adiciona o valor impresso
+    return result;
+}
 
   throw new Error("Unsupported AST node.");
 }

@@ -54,9 +54,6 @@ export function evaluateCondition(
 }
 
 //método para o print
-export function createPrintStatement(printStatement: string): { type: string; value: string } {
-  return {
-    type: "print",
-    value: printStatement,
-  };
+export function createPrintStatement(value: any): string {
+  return value.toString(); 
 }

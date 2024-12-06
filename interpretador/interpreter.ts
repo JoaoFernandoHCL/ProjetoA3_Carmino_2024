@@ -63,32 +63,11 @@ export function interpretProgram(input: string) {
 
     const astNodes = [];
 
-    type ExecutionResult = { type: string; value: any };
-    const executionResults: ExecutionResult[] = [];
-
-    function handleExecutionResult(result: any): void {
-      if (isPrintResult(result)) {
-        executionResults.push(result);
-      }
-    }
-
-    function isPrintResult(result: any): result is ExecutionResult {
-      return (
-        typeof result === "object" &&
-        result !== null &&
-        result.type === "print" &&
-        typeof result.value === "string"
-      );
-    }
-
     while (lexer.lookAhead().type !== TokenType.EOF) {
       const astNode = parser.parse();
       astNodes.push(astNodeToJson(astNode));
       console.log("ast node ", astNode)
-      const executionResult = executeAST(astNode, context);
-      
-      //método para enviar o print a ser construído
-      handleExecutionResult(executionResult);
+      executeAST(astNode, context); 
     }
 
     // Exibir o JSON da AST
@@ -103,7 +82,16 @@ export function interpretProgram(input: string) {
     }
 
     //return astJson;
-    return executionResults;
+    // Transforma os resultados em objetos com {type: "print", value: ...}
+    const formattedResults = context.printResults.map(result => ({
+      type: "print",
+      value: result,
+    }));
+
+    // Converte o array em uma string JSON formatada
+    const jsonString = JSON.stringify(formattedResults, null, 2); // null e 2 para identação
+
+    return jsonString;
   } catch (error) {
     console.error("Erro durante a execução:");
     console.error(error);
