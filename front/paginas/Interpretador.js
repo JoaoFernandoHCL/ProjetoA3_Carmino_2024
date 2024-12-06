@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import TextEditor from '../componentes/TextEditor';
+import { main } from '../dist';
 
 function Interpretador() {
   const [code, setCode] = useState(''); // Sempre inicializado como string
@@ -8,21 +9,24 @@ function Interpretador() {
 
   const executarCodigo = () => {
     try {
-      // usar o interpretador para executar o código e gerar a lista de objetos
-      const resultado = code;
-
-      // Valida se o resultado é um array de objetos com o formato esperado
-      if (Array.isArray(resultado)) {
-        const prints = resultado
-          .filter((item) => item.type === 'print') // Filtra apenas os objetos do tipo "print"
-          .map((item) => item.value); // Extrai os valores
-
-        setOutput(prints); // Atualiza o estado com os valores
+      const resultado = main(code);
+      const parsedResult = JSON.parse(resultado);
+      console.log("Resultado recebido:", resultado);
+  
+      if (Array.isArray(parsedResult)) {
+        const prints = parsedResult
+          .filter((item) => item.type === "print")
+          .map((item) => item.value);
+  
+        console.log("Valores extraídos para output:", prints);
+        setOutput(prints);
       } else {
-        setOutput(['Erro: O código não retornou um array de objetos válidos.']);
+        console.error("Formato inválido:", parsedResult);
+        setOutput(["Erro: Formato inválido."]);
       }
     } catch (error) {
-      setOutput([`Erro: ${error.message}`]); // Mostra o erro como uma linha no output
+      console.error("Erro na execução:", error);
+      setOutput([`Erro: ${error.message}`]);
     }
   };
 
@@ -67,11 +71,17 @@ function Interpretador() {
         <Typography
           variant="body1"
           sx={{
-            whiteSpace: 'pre-wrap', // Exibe cada valor em uma nova linha
-            fontFamily: '"Fira Code", monospace',
+                whiteSpace: 'pre-wrap',
+                fontFamily: '"Fira Code", monospace',
           }}
         >
-          {output.join('\n')} {/* Junta os valores com quebra de linha */}
+        {Array.isArray(output) ? (
+          output.map((line, index) => (
+            <div key={index}>{line}</div> // Garante que cada linha seja renderizada
+          ))
+        ) : (
+          <div>Erro: Saída inválida.</div>
+        )}
         </Typography>
       </Box>
     </Box>
