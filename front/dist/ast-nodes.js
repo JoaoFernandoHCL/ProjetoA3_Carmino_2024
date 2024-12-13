@@ -20,7 +20,7 @@ class IfNode {
         this.condition = condition;
         this.thenBranch = thenBranch;
         this.elseBranch = elseBranch;
-        this.type = "if";
+        this.type = "If";
         this.id = ASTNodeCounter.getNextId();
     }
 }
@@ -31,7 +31,7 @@ class WhileNode {
     constructor(condition, doBranch) {
         this.condition = condition;
         this.doBranch = doBranch;
-        this.type = "while";
+        this.type = "While";
         this.id = ASTNodeCounter.getNextId();
     }
 }
@@ -41,7 +41,7 @@ exports.WhileNode = WhileNode;
 class PrintNode {
     constructor(print) {
         this.print = print;
-        this.type = "print";
+        this.type = "Print";
         this.id = ASTNodeCounter.getNextId();
     }
 }
@@ -93,6 +93,17 @@ class AssignmentNode {
     }
 }
 exports.AssignmentNode = AssignmentNode;
+/*
+export class BlockNode implements ASTNode {
+  id: number;
+  constructor(
+    public instructions: ASTNode[]
+  ) {
+    this.id = ASTNodeCounter.getNextId();
+  }
+  type = "Block";
+}
+*/
 class ASTNodeCounter {
     static getNextId() {
         return ++this.currentId;

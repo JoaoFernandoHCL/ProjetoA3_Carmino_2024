@@ -75,7 +75,7 @@ class Parser {
         const condition = this.condicao(); // Parse da condição
         this.eat(lexer_1.TokenType.RightParen);
         this.eat(lexer_1.TokenType.LeftKey);
-        const thenBranch = this.declaracao(); // Parse do bloco `declaração`
+        const thenBranch = this.bloco_instrucoes(); // Parse do bloco `declaração`
         this.eat(lexer_1.TokenType.RightKey);
         let elseBranch = null;
         if (this.currentToken.type === lexer_1.TokenType.Else) {
@@ -90,7 +90,7 @@ class Parser {
         const condition = this.condicao(); // Parse da condição
         this.eat(lexer_1.TokenType.RightParen);
         this.eat(lexer_1.TokenType.LeftKey);
-        const doBranch = this.declaracao(); // Parse do bloco `declaração`
+        const doBranch = this.bloco_instrucoes(); // Parse do bloco de instruções
         this.eat(lexer_1.TokenType.RightKey);
         return new ast_nodes_1.WhileNode(condition, doBranch);
     }
@@ -171,8 +171,19 @@ class Parser {
         }
         return this.expr();
     }
+    //bloco de instruções
+    bloco_instrucoes() {
+        const instructions = [];
+        while (this.currentToken.type !== lexer_1.TokenType.RightKey &&
+            this.currentToken.type !== lexer_1.TokenType.EOF) {
+            instructions.push(this.declaracao());
+        }
+        return instructions;
+    }
     parse() {
-        return this.declaracao();
+        const node = this.declaracao();
+        console.log("AST gerada:", JSON.stringify(node, null, 2));
+        return node;
     }
 }
 exports.Parser = Parser;

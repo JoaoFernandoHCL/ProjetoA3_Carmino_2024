@@ -24,22 +24,26 @@ function astNodeToJson(node) {
             value: node.value
         };
     }
-    if (node instanceof ast_nodes_1.IfNode) {
+    /*
+      if (node instanceof IfNode) {
         return {
-            type: 'IfNode',
-            condition: astNodeToJson(node.condition),
-            thenBranch: astNodeToJson(node.thenBranch),
-            elseBranch: astNodeToJson(node.elseBranch)
+          type: 'IfNode',
+          condition: astNodeToJson(node.condition),
+          thenBranch: astNodeToJson(node.thenBranch),
+          elseBranch: astNodeToJson(node.elseBranch)
         };
+      }
+    */
+    /*
+    //While node
+    if (node instanceof WhileNode) {
+      return {
+        type: 'WhileNode',
+        condition: astNodeToJson(node.condition),
+        doBranch: astNodeToJson(node.doBranch)
+      };
     }
-    // While node
-    if (node instanceof ast_nodes_1.WhileNode) {
-        return {
-            type: 'WhileNode',
-            condition: astNodeToJson(node.condition),
-            doBranch: astNodeToJson(node.doBranch)
-        };
-    }
+      */
     // Caso existam outros tipos de nós, eles devem ser tratados aqui
     return {
         type: 'UnknownNode',

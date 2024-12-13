@@ -44,7 +44,10 @@ function executeAST(node, context) {
     else if (node instanceof ast_nodes_1.IfNode) {
         const conditionResult = executeAST(node.condition, context);
         if (conditionResult) {
-            return executeAST(node.thenBranch, context);
+            for (let instruction of node.thenBranch) {
+                executeAST(instruction, context);
+            }
+            return conditionResult;
         }
         else if (node.elseBranch) {
             return executeAST(node.elseBranch, context);
@@ -54,8 +57,11 @@ function executeAST(node, context) {
         let conditionResult = executeAST(node.condition, context);
         let doResult = 0;
         while (conditionResult) {
-            doResult = executeAST(node.doBranch, context);
+            for (let instruction of node.doBranch) {
+                executeAST(instruction, context);
+            }
             conditionResult = executeAST(node.condition, context);
+            doResult++;
         }
         return doResult;
     }
