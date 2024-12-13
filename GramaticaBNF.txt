@@ -13,7 +13,7 @@ Gramática - BNF
  
 <declaracao_enquanto> ::= "enquanto" "(" <condicao> ")" "{" <bloco_instrucoes> "}"
 
-<bloco_instrucoes> ::= <declaracao> [<bloco_instrucoes>]
+<bloco_instrucoes> ::= <declaracao> {<bloco_instrucoes>}
 
 <declaracao_print> ::= "print" "("<expressao>")" ";" 
 
